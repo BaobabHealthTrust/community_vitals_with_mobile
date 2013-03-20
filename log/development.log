@@ -7494,3 +7494,42 @@ Processing PeopleController#index (for 127.0.0.1 at 2013-03-20 02:37:07) [GET]
   [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "user" WHERE (COALESCE(token, '') != '') ORDER BY user.user_id DESC LIMIT 1[0m
 Rendering people/index
 Completed in 5ms (View: 0, DB: 1) | 200 OK [http://localhost/people/index]
+
+
+Processing PeopleController#index (for 127.0.0.1 at 2013-03-20 03:01:38) [GET]
+  [4;36;1mUser Load (0.4ms)[0m   [0;1mSELECT * FROM "user" WHERE (COALESCE(token, '') != '') ORDER BY user.user_id DESC LIMIT 1[0m
+Rendering people/index
+Completed in 9ms (View: 5, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing PeopleController#logout (for 127.0.0.1 at 2013-03-20 03:01:51) [GET]
+  [4;35;1mUser Load (0.5ms)[0m   [0mSELECT * FROM "user" WHERE (COALESCE(token, '') != '') ORDER BY user.user_id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "user" WHERE (COALESCE(token, '') != '') ORDER BY user.user_id DESC LIMIT 1[0m
+  [4;35;1mUser Update (0.3ms)[0m   [0mUPDATE "user" SET "token" = NULL WHERE "user_id" = 1[0m
+Redirected to http://localhost:3000/people/login
+Completed in 182ms (DB: 1) | 302 Found [http://localhost/people/logout]
+
+
+Processing PeopleController#login (for 127.0.0.1 at 2013-03-20 03:01:51) [GET]
+Rendering template within layouts/application
+Rendering people/login
+Completed in 9ms (View: 8, DB: 0) | 200 OK [http://localhost/people/login]
+
+
+Processing PeopleController#login (for 127.0.0.1 at 2013-03-20 03:01:58) [GET]
+Rendering template within layouts/application
+Rendering people/login
+Completed in 6ms (View: 3, DB: 0) | 200 OK [http://localhost/people/login]
+
+
+Processing PeopleController#index (for 127.0.0.1 at 2013-03-20 03:02:09) [GET]
+  [4;36;1mUser Load (0.5ms)[0m   [0;1mSELECT * FROM "user" WHERE (COALESCE(token, '') != '') ORDER BY user.user_id DESC LIMIT 1[0m
+Redirected to http://localhost:3000/people/login
+Filter chain halted as [:check_login] rendered_or_redirected.
+Completed in 3ms (DB: 0) | 302 Found [http://localhost/]
+
+
+Processing PeopleController#login (for 127.0.0.1 at 2013-03-20 03:02:09) [GET]
+Rendering template within layouts/application
+Rendering people/login
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/people/login]
