@@ -22,7 +22,7 @@ class PeopleController < ApplicationController
         "date_created" => (!p.date_created.blank? ? p.date_created : "&nbsp;"),
         "identifiers" => (p.identifiers.map{|id| id.identifier}.join("<br/>") + "&nbsp;" rescue "&nbsp;"),
         "relations" => (p.relationships.collect{|rl| 
-            "#{rl.relative.first_name} #{rl.relative.last_name} (#{rl.type.name})"
+            "#{rl.relative.first_name} #{rl.relative.last_name} (<span id='lbl_#{rl.type.name.downcase}'>#{rl.type.name}</span>)"
           }.join("<br/>") + "&nbsp;")
       }
     end

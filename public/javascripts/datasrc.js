@@ -208,7 +208,7 @@ function loadPanel(list, cat){
 
     var cell = document.createElement("div");
     cell.style.display = "table-cell";
-    cell.innerHTML = cat + " (" + ")";
+    cell.innerHTML = "<span id='lbl_" + cat.toLowerCase() + "'>" + cat + "</span> (" + ")";
     cell.style.fontSize = "32px";
     cell.style.backgroundColor = "#6281A7";
     cell.style.padding = "10px";
@@ -247,6 +247,7 @@ function loadPanel(list, cat){
     for(var c = 0; c < cols.length; c++){
         var tblcell = document.createElement("div");
         tblcell.style.display = "table-cell";
+        tblcell.id = "lbl_" + cols[c].replace(/_/, " ").toLowerCase();
         tblcell.innerHTML = cols[c].replace(/_/, " ").toUpperCase();
         tblcell.style.fontWeight = "bold";
         tblcell.style.backgroundColor = "#ccc";
@@ -268,6 +269,8 @@ function loadPanel(list, cat){
             var tblcell2 = document.createElement("div");
             tblcell2.style.display = "table-cell";
             tblcell2.style.textAlign = "left";
+            tblcell2.id = "lbl_" + (typeof(list[i][cols[c]]) != "undefined" ? String(list[i][cols[c]]).toLowerCase() : "");
+            tblcell2.name = "lbl_" + (typeof(list[i][cols[c]]) != "undefined" ? list[i][cols[c]] : "");
             tblcell2.innerHTML = (typeof(list[i][cols[c]]) != "undefined" ? list[i][cols[c]] : "&nbsp;");
             tblcell2.style.border = "1px solid #ccc";
             tblcell2.style.padding = "10px";
@@ -304,7 +307,7 @@ function loadPanel(list, cat){
             confirmDelete("Do you really want to delete this person?", parseInt(this.getAttribute("id")), 1);
         }
 
-        //tblrow2.appendChild(tblcell2);
+    //tblrow2.appendChild(tblcell2);
 
     }
 
@@ -322,7 +325,9 @@ function loadPanel(list, cat){
 
     tblrowbottom.appendChild(tblcell);
         
-    cell.innerHTML = cat + " (" + count + ")";
+    cell.innerHTML = "<span id='lbl_" + cat.toLowerCase() + "'>" + cat + "</span> (" + count + ")";
+
+    loadLocale();
 }
 
 function loadResult(){
@@ -334,7 +339,8 @@ function loadResult(){
 }
 
 function loadAllPeople(){
-    __$("btnKeyboard").style.display = "none";
+    if(__$("btnKeyboard"))
+        __$("btnKeyboard").style.display = "none";
     
     showKeys = false;
 

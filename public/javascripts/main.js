@@ -139,8 +139,9 @@ function loadLocale(){
 
         if(typeof(words) != "undefined"){
             for(var word in words[lang]){
-                if(__$("lbl_" + word)){
-                    __$("lbl_" + word).innerHTML = words[lang][word];
+               
+                if(__$("lbl_" + word.toLowerCase())){
+                    __$("lbl_" + word.toLowerCase()).innerHTML = words[lang][word];
 
                     if(word.toLowerCase() == "user_type"){
                         __$("1.4").innerHTML = "<option></option>";
@@ -156,8 +157,8 @@ function loadLocale(){
                             __$("fld_submit").innerHTML = words[lang][word];
                         }
                     }
-                } else if(__$("fld_" + word)){
-                    __$("fld_" + word).innerHTML = words[lang][word];
+                } else if(__$("fld_" + word.toLowerCase())){
+                    __$("fld_" + word.toLowerCase()).innerHTML = words[lang][word];
                 }
             }
         }
@@ -237,6 +238,7 @@ function getCurrentCategory(){
 }
 
 function showKeyboard(numeric, showAgain){
+
     if(typeof(showAgain) == "undefined")
         showAgain = false;
 
@@ -327,16 +329,22 @@ function showKeyboard(numeric, showAgain){
                     btn.setAttribute("tag", "enter");
                     cell.style.verticalAlign = "middle";
                 } else if(groups[j][i].toLowerCase() == "cap"){
+                    btn.setAttribute("tag", "cap");
                     btn.innerHTML = (!current_case_upper ? groups[j][i].toUpperCase() : groups[j][i].toLowerCase());
                     btn.style.minWidth = "120px";
+                } else if(groups[j][i].toLowerCase() == "unknown"){
+                    btn.innerHTML = groups[j][i];
+                    btn.setAttribute("tag", "unknown");
+                    cell.style.verticalAlign = "middle";
                 } else {
                     btn.innerHTML = groups[j][i];
+                    btn.setAttribute("tag", groups[j][i].toLowerCase());
                     btn.style.minWidth = "120px";
                 }
 
 
                 btn.onmousedown = function(){
-                    if(this.innerHTML == "Del"){
+                    if(this.getAttribute("tag") == "del" || this.innerHTML == "Del"){
                         if(__$("inputField").value.trim().toLowerCase() == "unknown"){
                             __$("inputField").value = "";
                         } else {
@@ -344,10 +352,8 @@ function showKeyboard(numeric, showAgain){
                                 __$("inputField").value.trim().length - 1);
                         }
                     } else {
-                        if(__$("inputField").value.trim().toLowerCase() == "unknown"){
-                            __$("inputField").value = this.innerHTML;
-                        } else if(this.innerHTML.trim().toLowerCase() == "unknown"){
-                            __$("inputField").value = this.innerHTML;
+                        if(this.getAttribute("tag") == "unknown" || __$("inputField").value.trim().toLowerCase() == "unknown"){
+                            __$("inputField").value = "Unknown";
                         } else {
                             __$("inputField").value += this.innerHTML;
                         }
@@ -398,27 +404,33 @@ function showKeyboard(numeric, showAgain){
                     btn.setAttribute("tag", "enter");
                     cell.style.verticalAlign = "middle";
                 } else if(rows[j][i].toLowerCase() == "cap"){
+                    btn.setAttribute("tag", "cap");
                     btn.innerHTML = (!current_case_upper ? rows[j][i].toUpperCase() : rows[j][i].toLowerCase());
                     btn.style.minWidth = "120px";
+                } else if(rows[j][i].toLowerCase() == "unknown"){
+                    btn.innerHTML = rows[j][i];
+                    btn.setAttribute("tag", "unknown");
+                    cell.style.verticalAlign = "middle";
                 } else {
                     btn.innerHTML = rows[j][i];
+                    btn.setAttribute("tag", rows[j][i].toLowerCase());
                     btn.style.minWidth = "120px";
                 }
 
                 btn.onmousedown = function(){
 
-                    if(this.innerHTML == "Del"){
+                    if(this.getAttribute("tag") == "del" || this.innerHTML == "Del"){
                         if(__$("inputField").value.trim().toLowerCase() == "unknown"){
                             __$("inputField").value = "";
                         } else {
                             __$("inputField").value = __$("inputField").value.trim().substr(0,
                                 __$("inputField").value.trim().length - 1);
                         }
-                    } else if(this.innerHTML.toLowerCase() == "cap"){
+                    } else if(this.getAttribute("tag") == "cap" || this.innerHTML.toLowerCase() == "cap"){
                         current_case_upper = !current_case_upper;
 
                         showKeyboard(false, true);
-                    } else if(this.innerHTML.toLowerCase() == "abc"){
+                    } else if(this.getAttribute("tag") == "abc" || this.innerHTML.toLowerCase() == "abc"){
                         if(navigator.userAgent.toLowerCase().match(/android/)){
                             Android.setPref("prefered_keyboard", "abc");
                         } else {
@@ -426,7 +438,7 @@ function showKeyboard(numeric, showAgain){
                         }
 
                         showKeyboard(false, true);
-                    } else if(this.innerHTML.toLowerCase() == "qwerty"){
+                    } else if(this.getAttribute("tag") == "qwerty" || this.innerHTML.toLowerCase() == "qwerty"){
                         if(navigator.userAgent.toLowerCase().match(/android/)){
                             Android.setPref("prefered_keyboard", "qwerty");
                         } else {
@@ -440,6 +452,8 @@ function showKeyboard(numeric, showAgain){
                         } else {
                             __$("inputField").value +=  " ";
                         }
+                    } else if(this.getAttribute("tag") == "unknown") {
+                        __$("inputField").value = "Unknown";
                     } else if(this.getAttribute("tag") == "enter") {
                         if(__$("inputField").value.trim().toLowerCase() == "unknown"){
                             __$("inputField").value = "";
@@ -474,6 +488,8 @@ function showKeyboard(numeric, showAgain){
         }
 
     }
+
+    loadLocale();
 }
 
 function expandSpec(){
@@ -574,7 +590,7 @@ function expandSpec(){
         var cell1 = document.createElement("div");
         cell1.style.display = "table-cell";
         cell1.innerHTML = order[s][2];
-        cell1.id = "lbl_" + order[s][1];
+        cell1.id = "slbl_" + order[s][1];
 
         row.appendChild(cell1);
 
@@ -628,6 +644,8 @@ function expandSpec(){
         row.appendChild(cell2);
         
     }
+
+    loadLocale();
 }
 
 function showPage(s, back){
@@ -699,6 +717,7 @@ function showPage(s, back){
     var cell1 = document.createElement("div");
     cell1.style.display = "table-cell";
     cell1.innerHTML = order[s][2];
+    cell1.id = "lbl_" + String(order[s][2]).toLowerCase();
     cell1.style.color = "#254061";
     cell1.style.fontSize = "1.8em";
     cell1.style.padding = "10px";
@@ -793,7 +812,7 @@ function showPage(s, back){
 
         showKeys = (sk.trim().length > 0 ? sk : showKeys);
     } else {
-        showKeys = (typeof(localStorage.showKeys) != "undefined" ? localStorage.showKeys : showKeys);
+    // showKeys = (typeof(localStorage.showKeys) != "undefined" ? localStorage.showKeys : showKeys);
     }
 
     input.onkeydown = function(event){
@@ -821,6 +840,8 @@ function showPage(s, back){
 
     showKeyboard(kybdnumeric, showKeys);
     
+    loadLocale();
+
     return "";
 }
 
@@ -939,9 +960,7 @@ function generateDays(year, month){
                 btn.style.minWidth = "70px";
 
                 btn.onmousedown = function(){
-                    if(__$("inputField")){
-                        __$("inputField").value = this.innerHTML;
-                    }
+                    __$("inputField").value = this.innerHTML;                    
                 }
 
                 btn.onkeydown = function(event){
@@ -965,11 +984,15 @@ function generateDays(year, month){
         if(count > months[__$(month).value][0]){
             var btn = document.createElement("button");
             btn.innerHTML = "Unknown";
+            btn.id = "lbl_unknown";
+            btn.setAttribute("tag", "unknown");
             btn.className = "keyboard_button blue";
             btn.style.minWidth = "70px";
 
             btn.onmousedown = function(){
-                if(__$("inputField")){
+                if(this.getAttribute("tag").toLowerCase() == "unknown" || __$("inputField").value.trim().toLowerCase() == "unknown"){
+                    __$("inputField").value = "Unknown";
+                } else {
                     __$("inputField").value = this.innerHTML;
                 }
             }
@@ -1162,7 +1185,8 @@ function loadSingleSelect(values, selected, initialtext){
         var li = document.createElement("li");
         li.innerHTML = "<div style='display: table;'><div style='display: table-row;'>" +
         "<div style='display: table-cell;'><img src='/images/unchecked.png' height='32' /></div>" +
-        "<div style='display: table-cell; vertical-align: middle; padding-left: 10px;'><span>" +
+        "<div style='display: table-cell; vertical-align: middle; padding-left: 10px;'><span id='lbl_" +
+        String(values[y]).toLowerCase() + "'>" +
         values[y][0] + "</span></div></div></div>";
         li.setAttribute("tag", (y % 2 > 0 ? "odd" : "even"));
         li.setAttribute("tstValue", (values[y][1] ? values[y][1] : values[y][0]));
@@ -1247,8 +1271,8 @@ function loadMultipleSelect(values, selected){
         var li = document.createElement("li");
         li.innerHTML = "<div style='display: table;'><div style='display: table-row;'>" +
         "<div style='display: table-cell;'><img src='/images/unticked.jpg' height='32' /></div>" +
-        "<div style='display: table-cell; vertical-align: middle; padding-left: 10px;'><span>" +
-        values[y] + "</span></div></div></div>";
+        "<div style='display: table-cell; vertical-align: middle; padding-left: 10px;'><span id='lbl_" + 
+        String(values[y]).toLowerCase() + "'>" + values[y] + "</span></div></div></div>";
         li.setAttribute("tag", (y % 2 > 0 ? "odd" : "even"));
 
         if(y % 2 > 0){

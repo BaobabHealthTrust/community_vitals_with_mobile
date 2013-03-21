@@ -4,11 +4,11 @@ C.1. Special characters are:
 C.1. "=>" for association
 C.1. "$$" for separation of entries
 
-Q.1.1. First Name [pos => 0]
+Q.1.1. First Name [pos => 0 $$ dynamicLoader => listFirstNames(__$('inputField').value.trim()) $$ tt_onLoad => listFirstNames('')]
 
-Q.1.2. Middle Name [pos => 1 $$ condition => (typeof(localStorage.askMiddleName) != "undefined" ? (localStorage.askMiddleName.toLowerCase() == "true" ? true : false ) : false ) == true]
+Q.1.2. Middle Name [pos => 1 $$ optional => true $$ dynamicLoader => listFirstNames(__$('inputField').value.trim()) $$ tt_onLoad => listFirstNames('')]
 
-Q.1.3. Last Name [pos => 2]
+Q.1.3. Last Name [pos => 2 $$ dynamicLoader => listLastNames(__$('inputField').value.trim()) $$ tt_onLoad => listLastNames('')]
 
 Q.1.4. Gender [pos => 3]
 O.1.4.1. Male

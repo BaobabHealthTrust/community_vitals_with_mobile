@@ -11,8 +11,8 @@ O.1.4.1. Traditional Authority {0}
 O.1.4.2. Group Village Headman {1}
 O.1.4.3. Village Headman {2}
 Q.1.5. T/A Location [pos => 4 $$ dynamicLoader => listTAs(__$('inputField').value.trim()) $$ condition => __$('1.4').value == 0]
-O.1.5.1. T/A Locations List
+O.1.5.1. T/A Mtema
 Q.1.6. GVH Location [pos => 5 $$ dynamicLoader => listGVHs(__$('inputField').value.trim()) $$ condition => __$('1.4').value == 1]
-O.1.6.1. Locations List
+O.1.6.1. GVH Mtema
 Q.1.7. Village Location [pos => 6 $$ dynamicLoader => listVH(__$('inputField').value.trim()) $$ condition => __$('1.4').value == 2]
-O.1.7.1. Locations List
+O.1.7.1. VH Chisasula
